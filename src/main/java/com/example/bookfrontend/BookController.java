@@ -32,7 +32,7 @@ public class BookController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public void delete(@PathVariable String id) {
         bookRepository.deleteById(id);
     }
 
@@ -68,7 +68,7 @@ public class BookController {
 
 
     @GetMapping("/download/{id}")
-    public ResponseEntity<byte[]> downloadBook(@PathVariable Long id) {
+    public ResponseEntity<byte[]> downloadBook(@PathVariable String id) {
         Book book = bookRepository.findById(id).orElseThrow();
 
         return ResponseEntity.ok()

@@ -4,6 +4,9 @@ package com.example.bookfrontend;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 public class Book {
     @Id
@@ -17,6 +20,10 @@ public class Book {
     @Lob
     @Column(name = "file_data", columnDefinition = "LONGBLOB")
     private byte[] fileData;
+
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
+    private List<Review> reviews = new ArrayList<>();
+
 
     @PrePersist
     public void generateId() {
