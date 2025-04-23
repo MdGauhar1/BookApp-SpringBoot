@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import java.util.stream.Collectors;
 
 import java.io.IOException;
 import java.util.List;
@@ -19,10 +20,15 @@ public class BookController {
     @Autowired
     private BookRepository bookRepository;
 
+
     @GetMapping
-    public List<Book> getAll() {
-        return bookRepository.findAll();
+    public List<BookDTO> getAll() {
+        return bookRepository.findAll()
+                .stream()
+                .map(BookDTO::new)
+                .toList();
     }
+
 
     @PostMapping
     public Book add(@Valid @RequestBody Book book) {
@@ -34,17 +40,36 @@ public class BookController {
         bookRepository.deleteById(id);
     }
 
+//    @GetMapping("/by-title")
+//    public ResponseEntity<List<Book>> getBooksByTitle(@RequestParam String title) {
+//        return ResponseEntity.ok(bookRepository.findByTitle(title));
+//    }
+//
+//    @GetMapping("/by-author")
+//    public ResponseEntity<List<Book>> getBooksByAuthor(@RequestParam String author) {
+//        return ResponseEntity.ok(bookRepository.findByAuthor(author));
+//    }
+
+
     @GetMapping("/by-title")
-    public ResponseEntity<List<Book>> getBooksByTitle(@RequestParam String title) {
-        return ResponseEntity.ok(bookRepository.findByTitle(title));
+    public ResponseEntity<List<BookDTO>> getBooksByTitle(@RequestParam String title) {
+        List<BookDTO> books = bookRepository.findByTitle(title)
+                .stream()
+                .map(BookDTO::new)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(books);
     }
 
     @GetMapping("/by-author")
-    public ResponseEntity<List<Book>> getBooksByAuthor(@RequestParam String author) {
-        return ResponseEntity.ok(bookRepository.findByAuthor(author));
+    public ResponseEntity<List<BookDTO>> getBooksByAuthor(@RequestParam String author) {
+        List<BookDTO> books = bookRepository.findByAuthor(author)
+                .stream()
+                .map(BookDTO::new)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(books);
     }
 
-    // ✅ Only keep this upload method
+
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<String> uploadBook(
             @RequestParam("title") String title,
