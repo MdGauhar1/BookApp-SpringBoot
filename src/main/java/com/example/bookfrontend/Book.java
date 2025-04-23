@@ -21,6 +21,12 @@ public class Book {
     @Column(name = "file_data", columnDefinition = "LONGBLOB")
     private byte[] fileData;
 
+    @Lob
+    @Column(name = "image_data", columnDefinition = "LONGBLOB")
+    private byte[] imageData;
+
+
+
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
     private List<Review> reviews = new ArrayList<>();
 
@@ -39,6 +45,14 @@ public class Book {
 
     public void setFileData(byte[] fileData) {
         this.fileData = fileData;
+    }
+
+    public byte[] getImageData() {
+        return imageData;
+    }
+
+    public void setImageData(byte[] imageData) {
+        this.imageData = imageData;
     }
 
     public String getId() {
