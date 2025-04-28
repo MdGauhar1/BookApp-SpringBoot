@@ -40,16 +40,6 @@ public class BookController {
         bookRepository.deleteById(id);
     }
 
-//    @GetMapping("/by-title")
-//    public ResponseEntity<List<Book>> getBooksByTitle(@RequestParam String title) {
-//        return ResponseEntity.ok(bookRepository.findByTitle(title));
-//    }
-//
-//    @GetMapping("/by-author")
-//    public ResponseEntity<List<Book>> getBooksByAuthor(@RequestParam String author) {
-//        return ResponseEntity.ok(bookRepository.findByAuthor(author));
-//    }
-
 
     @GetMapping("/by-title")
     public ResponseEntity<List<BookDTO>> getBooksByTitle(@RequestParam String title) {
